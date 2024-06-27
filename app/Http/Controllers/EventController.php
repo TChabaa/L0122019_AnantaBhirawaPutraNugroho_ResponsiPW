@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Event;
@@ -31,52 +30,25 @@ class EventController extends Controller
      */
     public function store(StoreEventsRequest $request)
     {
-        // Validate the request
-        // $request->validate([
-        //     'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:5048',
-        // ]);
+        $data = $request->all();
 
+        // Ensure event_location or event_link is null based on event_type
+        if ($data['event_type'] === 'seminar') {
+            $data['event_link'] = null;
+        } elseif ($data['event_type'] === 'webinar') {
+            $data['event_location'] = null;
+        }
 
-// Handle file upload if an image is provided
+        // Ensure event_price is null if the event is free
+        if ($data['payment_status'] === 'free') {
+            $data['event_price'] = "FREE";
+        }
 
-// $event_img = $request->vent_titlee . '.' . $request->image->extension();
-// $request->image->move(public_path('assets/images/events'), $event_img);
+        // Create the event
+        Event::create($data);
 
-
-$event_title = $request->event_title;
-$event_description = $request->event_description;
-$event_date = $request->event_date;
-$end_date = $request->end_date;
-$registration_date = $request->registration_date;
-$registration_end_date = $request->registration_end_date;
-$event_time = $request->event_time;
-$organizer_name = $request->organizer_name;
-$event_type = $request->event_type;
-$event_location = $request->event_location;
-// $event_link = $request->event_link;
-$payment_status = $request->payment_status;
-$event_price = $request->event_price;
-// $event_img = $request->event_img;
-
-Event::create([
-    'event_title' => $event_title,
-    'event_description' => $event_description,
-    'event_date' => $event_date,
-    'end_date' => $end_date,
-    'registration_date' => $registration_date,
-    'registration_end_date' => $registration_end_date,
-    'event_time' => $event_time,
-    'organizer_name' => $organizer_name,
-    'event_type' => $event_type,
-    'event_location' => $event_location,
-    // 'event_link' => $event_link,
-    'payment_status' => $payment_status,
-    'event_price' => $event_price,
-    // 'event_img' => $event_img,
-]);
-// Redirect to the events index page with a success message
-return view('pic.events.index')->with('success', 'Event created successfully.');
-
+        // Redirect to the events index page with a success message
+        return redirect()->route('events.index')->with('success', 'Event created successfully.');
     }
 
     /**
@@ -92,7 +64,7 @@ return view('pic.events.index')->with('success', 'Event created successfully.');
      */
     public function edit(Event $event)
     {
-        return view('pic.edit', compact('event'));
+        return view('pic.events.edit', compact('event'));
     }
 
     /**
@@ -100,38 +72,25 @@ return view('pic.events.index')->with('success', 'Event created successfully.');
      */
     public function update(UpdateEventsRequest $request, Event $event)
     {
-        $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:5048',
-        ]);
+        $data = $request->all();
 
+        // Ensure event_location or event_link is null based on event_type
+        if ($data['event_type'] === 'seminar') {
+            $data['event_link'] = null;
+        } elseif ($data['event_type'] === 'webinar') {
+            $data['event_location'] = null;
+        }
 
-// Handle file upload if an image is provided
+        // Ensure event_price is null if the event is free
+        if ($data['payment_status'] === 'free') {
+            $data['event_price'] = "FREE";
+        }
 
-    $event_img = $request->vent_titlee . '.' . $request->image->extension();
-        $request->image->move(public_path('assets/images/events'), $event_img);
+        // Update the event
+        $event->update($data);
 
-
-// Create a new Event instance and populate its attributes
-
-$event->update([
-    'event_title' => $request->event_title,
-'event_description' => $request->event_description,
-'event_date' => $request->event_date,
-'end_date' => $request->end_date,
-'registration_date' => $request->registration_date,
-'registration_end_date' => $request->registration_end_date,
-'organizer_name' => $request->organizer_name,
-'event_type' => $request->event_type,
-'event_location' => $request->event_location,
-'event_link' => $request->event_link,
-'payment_status' => $request->payment_status,
-'event_price' => $request->event_price,
-'event_img' => $request->event_img,
-]);
-// Redirect to the events index page with a success message
-
-
-        return redirect()->route('events.index')->with('success', 'Event updated successfully.');
+        // Redirect to the events index page with a success message
+        return redirect()->route('events.index')->with('status', 'Event has been edited!');
     }
 
     /**
@@ -140,6 +99,6 @@ $event->update([
     public function destroy(Event $event)
     {
         $event->delete();
-        return redirect()->route('pic.eventList.index')->with('success', 'Event deleted successfully.');
+        return redirect()->route('events.index')->with('status', 'Event has been deleted!');
     }
 }

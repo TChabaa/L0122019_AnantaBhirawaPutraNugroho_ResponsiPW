@@ -15,15 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('event_title');
             $table->text('event_description');
-            $table->date('event_date');
-            $table->date('end_date');
-            $table->date('registration_date');
-            $table->date('registration_end_date');
             $table->string('event_time');
             $table->string('organizer_name');
             $table->enum('event_type', ['seminar', 'webinar']);
             $table->string('event_location')-> nullable()->default(null);
-            // $table->string('event_link')-> nullable()->default(null);
+            $table->string('event_link')-> nullable()->default(null);
             $table->enum('payment_status', ['paid', 'free']);
             $table->string('event_price') -> nullable()->default(null);
             // $table->string('event_img');

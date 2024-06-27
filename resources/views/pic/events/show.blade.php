@@ -2,9 +2,6 @@
 
 @section('content')
     <div class="hero">
-        <div class="preview-image bg-navy text-center">
-            <img src="{{ asset('assets/images/events' . $event->event_img) }}" class="img-content" alt="semina">
-        </div>
 
         <div class="details-content container">
             <div class="d-flex flex-wrap justify-content-lg-center gap">
@@ -23,17 +20,20 @@
                         <!-- Key 1 -->
                         <div class="d-flex align-items-start gap-3">
                             <img src="{{ asset('assets/icons/ic-check.svg') }}" alt="semina">
-                            <span>Hours trying different things and getting nowhere makes them feel like giving up on marketing altogether.</span>
+                            <span>Hours trying different things and getting nowhere makes them feel like giving up on
+                                marketing altogether.</span>
                         </div>
                         <!-- Key 2 -->
                         <div class="d-flex align-items-start gap-3">
                             <img src="{{ asset('assets/icons/ic-check.svg') }}" alt="semina">
-                            <span>Hours trying different things and getting nowhere makes them feel like giving up on marketing altogether.</span>
+                            <span>Hours trying different things and getting nowhere makes them feel like giving up on
+                                marketing altogether.</span>
                         </div>
                         <!-- Key 3 -->
                         <div class="d-flex align-items-start gap-3">
                             <img src="{{ asset('assets/icons/ic-check.svg') }}" alt="semina">
-                            <span>Hours trying different things and getting nowhere makes them feel like giving up on marketing altogether.</span>
+                            <span>Hours trying different things and getting nowhere makes them feel like giving up on
+                                marketing altogether.</span>
                         </div>
                     </div>
                     <div class="map-location">

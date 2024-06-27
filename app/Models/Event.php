@@ -12,19 +12,30 @@ class Event extends Model
     protected $fillable = [
         'event_title',
         'event_description',
-        'event_date' => 'datetime',
-        'end_date' => 'datetime',
-        'registration_date' => 'datetime',
-        'registration_end_date' => 'datetime',
         'event_time',
         'organizer_name',
         'event_type',
         'event_location',
-        // 'event_link',
+        'event_link',
         'payment_status',
         'event_price',
         // 'event_img'
     ];
+
+    public function setEventLinkAttribute($value)
+    {
+        $this->attributes['event_link'] = $this->attributes['event_type'] === 'webinar' ? $value : null;
+    }
+
+    public function setEventLocationAttribute($value)
+    {
+        $this->attributes['event_location'] = $this->attributes['event_type'] === 'seminar' ? $value : null;
+    }
+
+    public function setEventPriceAttribute($value)
+    {
+        $this->attributes['event_price'] = $this->attributes['payment_status'] === 'free' ? "FREE" : $value;
+    }
 
 
 }

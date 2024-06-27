@@ -14,6 +14,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call([
+            EventSeeder::class,
+        ]);
         User::factory(5)->create();
 
         Admin::factory()->create([
